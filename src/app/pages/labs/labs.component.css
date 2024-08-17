@@ -1,0 +1,27 @@
+.container{
+    margin: 5rem;
+}
+
+button{
+    margin: 1rem;
+    border-radius: 2rem;
+    border: 1px solid #000;
+    padding: 0.5rem 1rem;
+}
+
+button:hover{
+    background-color: #000;
+    color: #fff;
+}
+
+input{
+    margin: 1rem;
+    padding: 0.5rem;
+    border-radius: 2rem;
+    border: 1px solid #000;
+}
+
+input:focus{
+    outline: none;
+    
+}

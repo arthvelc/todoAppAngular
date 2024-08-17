@@ -10,4 +10,6 @@ import { RouterOutlet } from '@angular/router';
 })
 export class AppComponent {
   title = 'todoapp';
+  prueba = "vamos a ver como funciona esto";
+  lista = ["uno", "dos", "tres"];
 }

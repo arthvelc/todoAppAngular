@@ -1,0 +1,40 @@
+
+
+<div class="container">
+    <h1>{{title}}</h1>
+    <p>total de tareas = {{tareas().length}}</p>
+    <ul>
+        @for (tarea of tareas(); track $index){
+            <li>
+                {{$index+1 + " - "}}{{tarea}}
+            </li>
+        }
+    </ul>
+    <hr>
+    <h2>{{"bienvenido".repeat(3)}}</h2>
+    <!-- renderizamos con código javascript -->
+    <p>la suma de 3+3 es : {{3+3}}</p>
+    <p>Hola mi nombre es {{name()}} y tengo {{age}} años</p>
+    <hr>
+    <img [src]="img" alt="">
+    <input type="text" [value]="name()">
+    <button [disabled]="disabled">click</button>
+
+    <p>{{person.name}}</p>
+    <p>{{person.age}}</p>
+    <img [src]="person.avatar" alt="">
+    <hr>
+    <button (click)="onClick()">Haz click</button>
+    <button (dblclick)="onClick()">Haz un doble click</button>
+    <p>(change)</p>
+    <input type="number" (change)="changeHandler($event)">
+    <p>(keydow)</p>
+    <p>En Angular, el evento keydown se utiliza para detectar cuando una tecla es presionada mientras el usuario está enfocado en un elemento de entrada, como un campo de texto o un área de texto. Este evento se puede manejar de manera similar a otros eventos como</p>
+    <input type="text" (keydown)="keyDoenHandler($event)">
+    <hr>
+
+    <h1>Signals</h1>
+    <input type="text" [value]="name()" (input)="inputHandler($event)">
+    <p>{{name()}}</p>
+
+</div>
