@@ -25,16 +25,18 @@ export class HomeComponent {
     nonNullable: true,
     validators:[
       Validators.required,
-      Validators.pattern('^(?!.*\\s{1,}).*$')
+      Validators.minLength(4)
     ]
   });
 
   changeHandler(){
+    const newTask = this.newTaskCtrl.value;
     if(this.newTaskCtrl.valid){
-      this.addTask(this.newTaskCtrl.value);
-      this.newTaskCtrl.setValue("");
+      if(newTask.trim() !== ""){
+        this.addTask(newTask);
+        this.newTaskCtrl.setValue("");
+      }
     }
-
   }
 
   addTask(title: string){
@@ -60,4 +62,34 @@ export class HomeComponent {
       })
     })
   }
+
+  updateTaskMode(index: number){
+    this.tasks.update(task =>{
+      return task.map((task, position)=>{
+        if(position === index){
+          return { ...task, editing: true }
+        }
+        return {
+          ...task, editing: false
+        };
+      })
+    })
+  }
+
+  updateTaskTitle(index: number, event: Event){
+    const inputElement = event.target as HTMLInputElement;
+    const newTitle = inputElement.value;
+  
+    this.tasks.update(task =>{
+      return task.map((task, position) =>{
+        if(position===index){
+          return{
+            ...task, title: newTitle, editing: false
+          }
+        }
+        return task; // Add this line to return the original task
+      })
+    })
+  }
+
 }

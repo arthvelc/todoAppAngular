@@ -17,23 +17,34 @@
     <div class="container todoapp-wrapper">
       <!-- This section should be hidden by default and shown when there are todos -->
 
-      <pre>
+      <!-- <pre>
         <code>{{ tasks() | json }}</code>
-      </pre>
+      </pre> -->
       <section class="main">
         <ul class="todo-list">
           @for (task of tasks(); track $index) {
-            <li [class.completed]="task.completed">
+            <li 
+            [class.completed]="task.completed"
+            (dblclick)="updateTaskMode($index)"
+            [class.editing]="task.editing && !task.completed"
+            >
               <div class="view">
-                <input class="toggle" type="checkbox"
+                <input class="toggle" 
+                type="checkbox"
                 [checked]="task.completed"    
                 (change)="updateTask($index)"/>
-                <label>{{task.title}}
+                <label>
+                  {{task.title}}
                 </label>
                 <button class="destroy"
                 (click)="deleteTask($index)"></button>
               </div>
-              <input class="edit" value="Learn JavaScript"/>
+              <input 
+               class="edit"
+              [value]="task.title"
+              (keydown.enter)="updateTaskTitle($index, 
+              $event)"
+              />
             </li>
           }
 
