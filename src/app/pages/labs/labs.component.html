@@ -20,9 +20,9 @@
     <input type="text" [value]="name()">
     <button [disabled]="disabled">click</button>
 
-    <p>{{person.name}}</p>
-    <p>{{person.age}}</p>
-    <img [src]="person.avatar" alt="">
+    <p>{{person().name}}</p>
+    <p>{{person().age}}</p>
+    <img [src]="person().avatar" alt="">
     <hr>
     <button (click)="onClick()">Haz click</button>
     <button (dblclick)="onClick()">Haz un doble click</button>
@@ -36,5 +36,59 @@
     <h1>Signals</h1>
     <input type="text" [value]="name()" (input)="inputHandler($event)">
     <p>{{name()}}</p>
+    <hr>
+    <h3>ng if</h3>
+    <div  *ngIf="1 === 1">
+        my content
+    </div>
+
+    <div *ngIf="name() === 'Arturo Solares'">
+        Hola, soy Arturo
+    </div>
+
+    <input type="text" (input)="changeAge($event)">
+
+    <div *ngIf="person().name === 'Arturo Solares' && person().age >= 18;  else elseBlock">
+        Hola soy Arturo y soy mayor de edad
+    </div>
+    <ng-template #elseBlock>
+        ni soy Arturo Solares, ni soy mayor de edad.
+    </ng-template>
+
+    <hr>
+    <h3>ng switch</h3>
+    <input type="text" [value]="name()" (input)="changeName($event)">
+    <div [ngSwitch]="person().name">
+        <p *ngSwitchCase="'Arturo'">Hola, soy Arturo</p>
+        <p *ngSwitchCase="'Ollin'">Hola, soy Ollin</p>
+        <p *ngSwitchCase="'María'">Hola, soy María</p>
+        <p *ngSwitchCase="'Juanita'">Hola, soy Juanita</p>
+        <p *ngSwitchDefault>Soy null xD</p>
+    </div>
+    <hr>
+    <h3>Importando ReactiveFormModule</h3>
+    <input type="color" [formControl] = "colorCtrl">
+    <p>{{colorCtrl.value}}</p>
+
+    <input type="text" [formControl] = 'textCtrl'>
+    <p>{{textCtrl.value}}</p>
+
+    <svg>
+        <g>
+            <rect x="0" y="0" height="100" width="100" [attr.fill] ="colorCtrl.value" />
+        </g>
+    </svg>
+
+    <hr>
+    <input type="number" [formControl]="widthCtrl">
+    <span class="box"  [style.width.rem]="widthCtrl.value">
+    </span>
+    <hr>
+    <h3>activando - desactivando clases de css</h3>
+    <input type="text" [formControl]="nameCtrl"><br>
+    <span class="input-error" [class.show]="!nameCtrl.valid">Error</span>
+
+
+    
 
 </div>

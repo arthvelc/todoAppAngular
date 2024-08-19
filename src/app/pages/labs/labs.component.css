@@ -25,3 +25,25 @@ input:focus{
     outline: none;
     
 }
+
+.box{
+    height: 1rem;
+    display: block;
+    border-radius: 2rem;
+    background-color: rgb(44, 87, 87);
+}
+
+.input-error{
+    border: 1px solid red;  
+    background-color: rgb(214, 72, 72);
+    color: white;
+    margin: .5rem;
+    padding: 1rem;
+    border-radius: .5rem;
+    opacity: 0;
+    transition: all linear .5s;
+}
+
+.show{
+    opacity: 1;
+}
