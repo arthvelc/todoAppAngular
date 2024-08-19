@@ -1,7 +1,15 @@
-import { Component, signal } from '@angular/core';
+import { Component, computed, effect, inject, Injector, signal } from '@angular/core';
 import { Task } from '../../models/task.model';
 import { JsonPipe, CommonModule } from '@angular/common';
 import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
+
+/*
+Signal
+computed
+effect
+
+Estos son los 3 elementos importantes en el mundo de la reactividad en Angular
+*/
 
 @Component({
   selector: 'app-home',
@@ -13,21 +21,61 @@ import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 })
 export class HomeComponent {
   title = 'Página Inicial';
-  tasks = signal<Task[]>([
-    {
-      id: Date.now(),
-      title: "Amar a Ollincita 🥰",
-      completed: true
-    }
-  ]);
+  tasks = signal<Task[]>([]); //Estado por defecto del array de tasks
 
   newTaskCtrl = new FormControl('', {
     nonNullable: true,
     validators:[
       Validators.required,
-      Validators.minLength(4)
+      //Validators.minLength(4)
     ]
   });
+
+  filter = signal<'all' | 'pending' | 'completed'>("all"); //signal es un observable que emite valores iniciales y posteriores
+
+  tasksByFilters= computed(() => {
+    const filter=this.filter();
+    const task = this.tasks()
+
+    if(filter === "pending"){
+      return task.filter((task) => !task.completed);
+    }
+
+    if(filter === "completed"){
+      return task.filter((task) => task.completed);
+    }
+
+    return task;
+  })
+
+  //Construnctor
+  constructor(){
+  }
+
+  injector = inject(Injector);
+
+  ngOnInit(): void {
+    //Called after the constructor, initializing input properties, and the first call to ngOnChanges.
+    //Add 'implements OnInit' to the class.
+    const storage = localStorage.getItem('tasks'); //habia llamado el key task, pero era el key tasks
+
+    if(storage){
+      const tasks = JSON.parse(storage);
+      this.tasks.set(tasks); //Seteamos el estado de las tareas con el valor que se encuentra en el local storage, el set es un método que nos permite cambiar el valor de un estado
+    }
+
+    this.trackTasks();
+  }
+
+
+  trackTasks(){
+     //Efect no retorna ningun valor como signal o computed(estados derivados) si no que este nos ayuda a vigilar un estado y a partir de ello ejecutar una lógica.
+     effect(() =>{
+      const tasks = this.tasks();
+      console.log(tasks)
+      localStorage.setItem('tasks', JSON.stringify(tasks));
+    }, {injector: this.injector})
+  }
 
   changeHandler(){
     const newTask = this.newTaskCtrl.value;
@@ -50,6 +98,10 @@ export class HomeComponent {
 
   deleteTask(index: number){
     this.tasks.update(tasks => (tasks.filter((task, position) => position !== index)))
+  }
+
+  deleteTaskCompleted(){
+    this.tasks.update(tasks => (tasks.filter( task => !task.completed)))
   }
 
   updateTask(index: number){
@@ -79,7 +131,7 @@ export class HomeComponent {
   updateTaskTitle(index: number, event: Event){
     const inputElement = event.target as HTMLInputElement;
     const newTitle = inputElement.value;
-  
+
     this.tasks.update(task =>{
       return task.map((task, position) =>{
         if(position===index){
@@ -92,4 +144,7 @@ export class HomeComponent {
     })
   }
 
+  changeFilter(filter: 'all' | 'pending' | 'completed'){
+    this.filter.set(filter);
+  }
 }

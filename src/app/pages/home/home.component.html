@@ -2,8 +2,8 @@
 <section class="todoapp">
     <header class="header">
       <div class="container">
-        <h1>My Day</h1>
-        <p>All my tasks in one place</p>
+        <h1>Gestor de Tareas c:</h1>
+        <p>Ingresa una tarea y presiona enter.</p>
         <input
           class="new-todo"
           placeholder="Type new todo"
@@ -20,18 +20,19 @@
       <!-- <pre>
         <code>{{ tasks() | json }}</code>
       </pre> -->
+
       <section class="main">
         <ul class="todo-list">
-          @for (task of tasks(); track $index) {
-            <li 
+          @for (task of tasksByFilters(); track $index) {
+            <li
             [class.completed]="task.completed"
             (dblclick)="updateTaskMode($index)"
             [class.editing]="task.editing && !task.completed"
             >
               <div class="view">
-                <input class="toggle" 
+                <input class="toggle"
                 type="checkbox"
-                [checked]="task.completed"    
+                [checked]="task.completed"
                 (change)="updateTask($index)"/>
                 <label>
                   {{task.title}}
@@ -39,10 +40,10 @@
                 <button class="destroy"
                 (click)="deleteTask($index)"></button>
               </div>
-              <input 
+              <input
                class="edit"
               [value]="task.title"
-              (keydown.enter)="updateTaskTitle($index, 
+              (keydown.enter)="updateTaskTitle($index,
               $event)"
               />
             </li>
@@ -57,7 +58,7 @@
               </div>
               <input class="edit" value="Learn JavaScript" />
             </li>
-          
+
           <li>
             <div class="view">
               <input class="toggle" type="checkbox" />
@@ -77,32 +78,35 @@
         </ul>
       </section>
       <!-- This footer should be hidden by default and shown when there are todos -->
-      <footer class="footer">
+      <footer class="footer" >
         <!-- This should be `0 items left` by default -->
-        <span class="todo-count" *ngIf="tasks().length>1; else singularForm">
-          <strong>{{tasks().length}}</strong> item
+        <span class="todo-count" *ngIf="tasksByFilters().length > 1 || tasksByFilters().length === 0; else singularForm">
+          <strong>{{tasksByFilters().length}}</strong> items
         </span>
 
         <ng-template #singularForm>
           <span class="todo-count">
-            <strong>{{tasks().length}}</strong> item
+            <strong>{{tasksByFilters().length}}</strong> item
           </span>
         </ng-template>
-        
+
         <!-- Remove this if you don't implement routing -->
         <ul class="filters">
           <li>
-            <a routerLink="/" class="selected">All</a>
+            <a (click)="changeFilter('all')"
+            [class.selected]="filter() == 'all'">All</a>
           </li>
           <li>
-            <a routerLink="/pending">Pending</a>
+            <a (click)="changeFilter('pending')"
+            [class.selected]="filter() == 'pending'">Pending</a>
           </li>
-          <li>
-            <a routerLink="/completed">Completed</a>
+          <li >
+            <a (click)="changeFilter('completed')"
+            [class.selected]="filter() == 'completed'">Completed</a>
           </li>
         </ul>
-        <!-- Hidden if no completed items are left ↓ -->
-        <button class="clear-completed">Clear completed</button>
+
+        <button class="clear-completed" (click) = "deleteTaskCompleted()">Clear completed</button>
       </footer>
     </div>
   </section>
