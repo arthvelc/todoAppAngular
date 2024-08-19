@@ -1,6 +1,6 @@
 import { Component, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms'; 
+import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-labs',
@@ -10,7 +10,7 @@ import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
   styleUrls: ['./labs.component.css'] // Cambia styleUrl a styleUrls
 })
 export class LabsComponent {
-  title = 'Mi primera app en Angular';
+  title = 'Mi primera app en Angular, este es un cambio para ver si funciona';
   tareas = signal(["Estudiar Angular", "Hacer una app", "Publicarla", "Compartirla", "Hacer un curso"]);
   name = signal("Arturo Solares");
   age = 24;
@@ -28,7 +28,7 @@ export class LabsComponent {
     nonNullable:true
   });
   nameCtrl = new FormControl("Arti",{
-    validators: [ 
+    validators: [
       Validators.required,
       Validators.minLength(3)
     ]
