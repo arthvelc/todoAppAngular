@@ -10,7 +10,7 @@ import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
   styleUrls: ['./labs.component.css'] // Cambia styleUrl a styleUrls
 })
 export class LabsComponent {
-  title = 'La tercera es la vencida';
+  title = 'La tercera es la vencida. Mac';
   tareas = signal(["Estudiar Angular", "Hacer una app", "Publicarla", "Compartirla", "Hacer un curso"]);
   name = signal("Arturo Solares");
   age = 24;
